@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <title> Submit to DB</title>
+</head>
+
+<body>
+    <header>
+      <h1>Specimen Metadata</h1>
+    </header>
+    <form action="/add" method="POST">
+      <fieldset>
+        <h3>Add new record</h3>
+        <label>specID</label>
+        <input type="text" id = "specID" name="specID" required>
+        <br><br>
+        <label>Species</label>
+        <input type ="text" id = 'species' name="species" required>
+        <br><br>
+        <label>strain</label>
+        <input type="text" id = "strain" name="strain" required>
+        <br><br>
+        <label>date</label>
+        <input type="text" id = "date" name="date" required>
+        <br><br>
+        <label>lat</label>
+        <input type="text" id = "lat" name="lat" required>
+        <br><br>
+        <label>long</label>
+        <input type="text" id = "long" name="long" required>
+        <br><br>
+        <label>storage</label>
+        <input type="text" id = "store" name="store" required>
+        <br><br>
+        <button type ="reset">Reset</button>
+        <button type ="submit">Submit</button>
+      </fieldset>
+    </form>
+
+    <form action="/view" method="POST">
+      <fieldset>
+        <h3>View specimens</h3>
+        <button type ="submit">Submit</button>
+        <br><br><br>
+      </fieldset>
+     </form>
+
+    <form action="/update" method="POST">
+        <fieldset>
+          <h3>Update a record</h3>
+          <label>species</label>
+          <input type ="text" id = 'empID' name="id" required>
+          <br><br>
+          <label>strain</label>
+          <input type="text" id = "name" name="name" required>
+          <br><br>
+          <button type ="reset">Reset</button>
+          <button type ="submit">Submit</button>
+        </fieldset>
+       </form>
+      <form action="/delete" method="POST">
+        <fieldset>
+          <h3>Delete a record</h3>
+          <label>specID</label>
+          <input type ="text" id = 'empID' name="id" required>
+          <br><br>
+          <button type ="reset">Reset</button>
+          <button type ="submit">Submit</button>
+          <br><br><br>
+        </fieldset>
+       </form>
+
+       <div class="table-data">
+        <h2>Display Data using Node.js & MySQL</h2>
+        <table border="1">
+          <tr>
+            <th>S.N</th>
+            <th>Species</th>
+            <th>strain</th>
+            <th>date</th>
+            <th>latitude</th>
+            <th>longitude</th>
+            <th>storage</th>
+          </tr>
+          <% if (userData.length !== 0) { %>
+            <% userData.forEach(function(data, index) { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= data.species %></td>
+                <td><%= data.strain %></td>
+                <td><%= data.date %></td>
+                <td><%= data.lat %></td>
+                <td><%= data.lon %></td>
+                <td><%= data.store %></td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="7">No Data Found</td>
+            </tr>
+          <% } %>
+        </table>
+      </div>
+
+
+       <footer>
+        <hr>
+        <h4>Please enter 'http://localhost:3000/close' to close the   database connection before closing this window</h4>
+      </footer>
+    </body>
+  </html>
