@@ -116,7 +116,7 @@ app.post('/add', function(req,res){
         return console.log(err.message);
       }
       console.log("New specimen has been added");
-      res.send("New specimen has been added into the database: species = "+req.body.species+ " stored at  "+req.body.store);
+      //res.send("New specimen has been added into the database: species = "+req.body.species+ " stored at  "+req.body.store);
     });
 });
 
