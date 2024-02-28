@@ -11,10 +11,6 @@
     </header>
     <form action="/add" method="POST">
       <fieldset>
-        <h3>Add new record</h3>
-        <label>specID</label>
-        <input type="text" id = "specID" name="specID" required>
-        <br><br>
         <label>Species</label>
         <input type ="text" id = 'species' name="species" required>
         <br><br>
@@ -49,11 +45,11 @@
     <form action="/update" method="POST">
         <fieldset>
           <h3>Update a record</h3>
-          <label>species</label>
-          <input type ="text" id = 'empID' name="id" required>
+          <label>specimen ID</label>
+          <input type ="text" id = 'specID' name="specID" required>
           <br><br>
-          <label>strain</label>
-          <input type="text" id = "name" name="name" required>
+          <label>Storage</label>
+          <input type="text" id = "store2" name="store2" required>
           <br><br>
           <button type ="reset">Reset</button>
           <button type ="submit">Submit</button>

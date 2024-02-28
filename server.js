@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname,'./')));
 
 app.get('/', function(req,res) {
 
-  res.sendFile(path.join(__dirname, './front.html'));
+  res.sendFile(path.join(__dirname, './user-list.html'));
 });
 
 
@@ -77,31 +77,83 @@ app.post('/add', function(req,res){
     });
 });
 
-app.get('/user-list', (req, res) => {
+app.post('/user-list', (req, res) => {
   const sql = 'SELECT * FROM specimens';
   con.query(sql, (err, data) => {
     if (err) throw err;
-    res.render('user-list', { title: 'User List', userData: data });
-    console.log(data);
+    Object.keys(data).forEach(function(key){
+          var val = data[key];
+          var realvals = Object.values(val);
+
+          let result = '<table>';
+          for (let el in realvals) {
+            result += "<tr><td>" + el + "</td><td>" + realvals[el] + "</td></tr>";
+            
+          }    
+          result +='</table>';
+
+            res.send(result);
+        });
+
+   
+  //  res.render('user-list', { title: 'User List', userData: data });
+  //  console.log(data);
   });
 });
 
+app.post('/view', (req, res) => {
+  const sql = 'SELECT * FROM specimens';
+  con.query(sql, (err, data) => {
+    if (err) throw err;
+    let result = '<table><tr><td></td><td>specID</td><td>species</td><td>strain</td><td>date</td><td>lat</td><td>long</td><td>storage</td></tr>';
+    for (let el in data) {
+          var val = data[el];
+          console.log(`data: ${data}`);
+          console.log(`val: ${val}`);
+          var realvals = Object.values(val);
+          console.log(`realvals: ${realvals}`);
+
+          result += "<tr>"
+        for (let jel in realvals) {
+          result += "<td>" + realvals[jel] + "</td>";
+
+            
+          }
+        result += "</tr>";
+        }    
+          result +='</table>';
+
+          console.log(result);
+          res.send(result);  
+        });
+       
+      });
+  
 //View
-app.post('/view', function(req,res){
-    con.query('SELECT specID ID, species SPECIES FROM specimens',[req.body.doc_id_msgs], function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
-      if(err){
-        res.send("Error encountered while displaying");
-        return console.error(err.message);
-      }
-      res.send(`specID: ${row.ID}, species: ${row.SPECIES}`);
-      console.log("Entry displayed successfully");
-    });
-  });
+//app.post('/view', function(req,res){
+//    con.query('SELECT specID ID, species SPECIES FROM specimens',[req.body.doc_id_msgs], function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
+//      if(err){
+//        res.send("Error encountered while displaying");
+//        return console.error(err.message);
+//      }
+//
+//      res.send(result);
+//      console.log("Entry displayed successfully");
+//      console.log(`${row.ID}`);
+//      console.log(Object.values(row));
+//      Object.keys(row).forEach(function(key){
+//           var val = row[key];
+//           var realvals = Object.values(val);
+//           console.log(realvals);
+//           return realvals;
+//           res.send(realvals);
+//         });
+//    });
+//  });
 
 //UPDATE
 app.post('/update', function(req,res){
-  con.serialize(()=>{
-    con.run('UPDATE specimens SET specID = ? WHERE species = ?', [req.body.name,req.body.id], function(err){
+    con.query('UPDATE specimens SET storage = ? WHERE specID = ?', [req.body.store2,req.body.specID], function(err){
       if(err){
         res.send("Error encountered while updating");
         return console.error(err.message);
@@ -110,12 +162,9 @@ app.post('/update', function(req,res){
       console.log("Entry updated successfully");
     });
   });
-});
-
 //DELETE
 app.post('/delete', function(req,res){
-  con.serialize(()=>{
-    con.run('DELETE FROM specimens WHERE specID = ?', req.body.id, function(err) {
+    con.query('DELETE FROM specimens WHERE specID = ?', req.body.id, function(err) {
       if (err) {
         res.send("Error encountered while deleting");
         return console.error(err.message);
@@ -124,7 +173,6 @@ app.post('/delete', function(req,res){
       console.log("Entry deleted");
     });
   });
-});
 
 
 app.get('/close', function(req,res){
