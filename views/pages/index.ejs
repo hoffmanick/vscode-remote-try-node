@@ -11,6 +11,20 @@
       <h1>Specimen Metadata</h1>
     </header>
 
+
+    <div id="app"></div>
+<script type="text/babel">
+ const { React, ReactDOM } = window;
+ function App(){
+   return (<div class="col-md-6 col-sm-6 col-xs-7">
+    <ul>
+      <li><span class="point">Name:</span> <%= val.species %> </li>
+      <li><span class="point">Email:</span> <%= val.specID %> </li>
+    </ul>
+  </div>)
+ }
+ ReactDOM.render(<App/>, document.getElementById('app'));
+</script>
     <ul>
       <% val.forEach((val)=> { %>
           <li>

@@ -120,6 +120,11 @@ app.post('/add', function(req,res){
     });
 });
 
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+  console.log(res);
+});
+
 router.get('/user-list', (req, res) => {
   const sql = 'SELECT * FROM specimens';
   con.query(sql, (err, data) => {
@@ -220,7 +225,9 @@ app.get('/close', function(req,res){
 
 server.listen(3000,function(){ 
   console.log("Server listening on port: 3000");
-})
+  console.log(`Running on http://${HOST}:${PORT}`);
+});
+
   
 // app.get('/', (req, res) => {
   
@@ -236,6 +243,6 @@ server.listen(3000,function(){
 //});
 
 //app.listen(PORT, HOST);
-//console.log(`Running on http://${HOST}:${PORT}`);
+//
 
 module.exports = app;
