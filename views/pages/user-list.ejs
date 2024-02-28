@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fetch using MySQL and Node.js</title>
+</head>
+<body>
+    <div class="table-data">
+    <h2>Display Data using Node.js & MySQL</h2>
+    <table border="1">
+      <tr>
+        <th>S.N</th>
+        <th>Species</th>
+        <th>strain</th>
+        <th>date</th>
+        <th>latitude</th>
+        <th>longitude</th>
+        <th>storage</th>
+      </tr>
+      <% if (userData.length !== 0) { %>
+        <% userData.forEach(function(data, index) { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= data.species %></td>
+            <td><%= data.strain %></td>
+            <td><%= data.date %></td>
+            <td><%= data.lat %></td>
+            <td><%= data.lon %></td>
+            <td><%= data.store %></td>
+          </tr>
+        <% }); %>
+      <% } else { %>
+        <tr>
+          <td colspan="7">No Data Found</td>
+        </tr>
+      <% } %>
+    </table>
+  </div>
+  </body>
+</html>

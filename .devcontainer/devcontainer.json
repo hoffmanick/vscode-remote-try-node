@@ -16,6 +16,7 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "npm install",
 	"postCreateCommand": "npm install mysql",
+	"postCreateCommand": "npm install mysql ejs express",
 
 	// Configure tool-specific properties.
 	"customizations": {

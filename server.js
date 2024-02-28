@@ -6,6 +6,7 @@
 'use strict';
 
 const express = require('express');
+const router = express.Router();
 var http = require('http');
 var path = require("path");
 // var helmet = require('helmet');
@@ -25,6 +26,12 @@ var server = http.createServer(app);
 
 const mysql = require('mysql');
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+
+
+
 const bodyParser = require("body-parser");
 var con = mysql.createConnection({
   host: "testid.c9s268qmu83p.us-west-1.rds.amazonaws.com",
@@ -34,6 +41,42 @@ var con = mysql.createConnection({
 });
 
 
+const user = {
+  firstName: 'Tim',
+  lastName: 'Cook',
+}
+
+app.get('/', (req, res) => {
+  const sql = 'SELECT * FROM specimens';
+  con.query(sql, (err, data) => {
+    if (err) throw err;
+    let result = '<table><tr><td></td><td>specID</td><td>species</td><td>strain</td><td>date</td><td>lat</td><td>long</td><td>storage</td></tr>';
+    for (let el in data) {
+          var val = data[el];
+          console.log(`data: ${data}`);
+          console.log(`val: ${val}`);
+          var realvals = Object.values(val);
+          console.log(`realvals: ${realvals}`);
+
+          result += "<tr>"
+        for (let jel in realvals) {
+          result += "<td>" + realvals[jel] + "</td>";
+
+            
+          }
+        result += "</tr>";
+        }    
+          result +='</table>';
+
+          console.log(result);
+          res.render('pages/index', {
+            val: data
+            
+          });
+        });
+       
+
+});
 
 con.connect(function(err) {
   if (err) throw err;
@@ -73,33 +116,21 @@ app.post('/add', function(req,res){
         return console.log(err.message);
       }
       console.log("New specimen has been added");
-      res.send("New specimen has been added into the database with ID = "+req.body.specID+ " and Name = "+req.body.strain);
+      res.send("New specimen has been added into the database: species = "+req.body.species+ " stored at  "+req.body.store);
     });
 });
 
-app.post('/user-list', (req, res) => {
+router.get('/user-list', (req, res) => {
   const sql = 'SELECT * FROM specimens';
   con.query(sql, (err, data) => {
     if (err) throw err;
-    Object.keys(data).forEach(function(key){
-          var val = data[key];
-          var realvals = Object.values(val);
 
-          let result = '<table>';
-          for (let el in realvals) {
-            result += "<tr><td>" + el + "</td><td>" + realvals[el] + "</td></tr>";
-            
-          }    
-          result +='</table>';
-
-            res.send(result);
-        });
-
-   
-  //  res.render('user-list', { title: 'User List', userData: data });
-  //  console.log(data);
+  res.render('user-list', { title: 'User List', userData: data });
+  console.log(data);
   });
 });
+
+module.exports = router;
 
 app.post('/view', (req, res) => {
   const sql = 'SELECT * FROM specimens';
@@ -206,3 +237,5 @@ server.listen(3000,function(){
 
 //app.listen(PORT, HOST);
 //console.log(`Running on http://${HOST}:${PORT}`);
+
+module.exports = app;
