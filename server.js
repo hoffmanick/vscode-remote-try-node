@@ -13,7 +13,7 @@ var path = require("path");
 // var rateLimit = require("express-rate-limit");
 
 // Constants
-const PORT = 3000;
+// const PORT = 3000;
 const HOST = '0.0.0.0';
 
 // App
@@ -41,10 +41,6 @@ var con = mysql.createConnection({
 });
 
 
-const user = {
-  firstName: 'Tim',
-  lastName: 'Cook',
-}
 
 app.get('/', (req, res) => {
   const sql = 'SELECT * FROM specimens';
@@ -76,6 +72,30 @@ app.get('/', (req, res) => {
         });
        
 
+});
+
+
+//testing backend api for react front end
+app.get("/test", (req, res) => {
+  res.json({
+    array: [
+      {
+        name: "device1",
+        serial: "WMD105222022",
+        status: "online",
+      },
+      {
+        name: "device2q",
+        serial: "sdfsdf",
+        status: "online",
+      },
+      {
+        name: "ducs",
+        serial: "WMD105222022",
+        status: "online",
+      },
+    ],
+  });
 });
 
 con.connect(function(err) {
@@ -222,8 +242,9 @@ app.get('/close', function(req,res){
   });
 });
 
+const PORT = process.env.PORT || 3001;
 
-server.listen(3000,function(){ 
+app.listen(PORT,function(){ 
   console.log("Server listening on port: 3000");
   console.log(`Running on http://${HOST}:${PORT}`);
 });
